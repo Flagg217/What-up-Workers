@@ -53,6 +53,18 @@ const viewDepartments = async() => {
     setTimeout(mainQuestion, 3000);
 }
 
+const viewRoles = async() => {
+    const [roles] = await db.promise().query(`SELECT * FROM role`);
+    console.table(roles);
+    setTimeout(mainQuestion, 3000);
+}
+
+const viewEmployees = async() => {
+    const [employees] = await db.promise().query(`SELECT * FROM employee`);
+    console.table(employees);
+    setTimeout(mainQuestion, 3000);
+}
+
 const addDepartment = async() => {
     const department = await inquirer.prompt([
         {
@@ -63,6 +75,19 @@ const addDepartment = async() => {
     ]);
     await db.promise().query(`INSERT INTO department SET ?`, department);
     console.log(`Added ${department.dept_name} to the database`);
+    setTimeout(mainQuestion, 3000);
+}
+
+const addRole = async() => {
+    const role =await inquirer.prompt([
+        {
+            type: 'input',
+            name: 'title',
+            message: 'What is the title of this role?',
+        },
+    ]);
+    await db.promise().query(`INSERT INTO role SET ?`, role);
+    console.log(`Added ${role.title} to the database`);
     setTimeout(mainQuestion, 3000);
 }
 
