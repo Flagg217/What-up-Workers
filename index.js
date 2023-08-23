@@ -89,6 +89,29 @@ const addRole = async() => {
     await db.promise().query(`INSERT INTO role SET ?`, role);
     console.log(`Added ${role.title} to the database`);
     setTimeout(mainQuestion, 3000);
+    ([
+        {
+            type: 'input',
+            name: 'salary',
+            message: 'What is the salary of this role?',
+        },
+    ]);
+    await db.promise().query(`INSERT INTO role SET ?`, role);
+    console.log(`Added ${role.salary} to the database`);
+    setTimeout(mainQuestion, 3000);
+    
+}
+
+const addEmployee = async() => {
+    const employee = await inquirer.prompt([
+        {
+            type: 'input',
+            name: 'first_name',
+            message: 'What is the first name of the employee?',
+        },
+    ]);
+    await db.promise().query(`INSERT INTO employee SET ?`, employee);
+    console.log(`Added ${employee.first_name} to the database`);
 }
 
 start();
