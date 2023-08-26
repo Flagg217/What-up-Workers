@@ -112,6 +112,46 @@ const addEmployee = async() => {
     ]);
     await db.promise().query(`INSERT INTO employee SET ?`, employee);
     console.log(`Added ${employee.first_name} to the database`);
+    setTimeout(mainQuestion, 3000);
+
+    {
+        const employee = await inquirer.prompt([
+            {
+                type: 'input',
+                name: 'last_name',
+                message: 'What is the last name of the employee?',
+            },
+        ]);
+        await db.promise().query(`INSERT INTO employee SET ?`);
+        console.log(`Added ${employee.last_name} to the database`);
+        setTimeout(mainQuestion, 3000);
+    }
+
+    {
+        const employee = await inquirer.prompt([
+            {
+                type: 'input',
+                name: 'role_id',
+                message: 'What is the role id of the employee?',
+            },
+        ]);
+        await db.promise().query(`INSERT INTO employee SET ?`);
+        console.log(`Added ${employee.role_id} to the database`);
+        setTimeout(mainQuestion, 3000);
+    }
+
 }
+
+const updateEmployee = async() => {
+    const employee = await inquirer.prompt([
+        {
+            type: 'input',
+            name: 'first_name',
+            message: 'What is the first name of the employee?',
+        },
+    ]);
+    await db.promise().query(`INSERT INTO employee SET ?`, employee);
+    console.log(`Added ${employee.first_name} to the database`);
+        }
 
 start();
