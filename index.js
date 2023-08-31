@@ -79,78 +79,88 @@ const addDepartment = async() => {
 }
 
 const addRole = async() => {
+    const [departments] = await db.promise().query(`SELECT * FROM department`);
+    const departmentChoices = departments.map((department => ({name: department.dept_name, value: department.id})));
     const role =await inquirer.prompt([
         {
             type: 'input',
             name: 'title',
             message: 'What is the title of this role?',
         },
-    ]);
-    await db.promise().query(`INSERT INTO role SET ?`, role);
-    console.log(`Added ${role.title} to the database`);
-    setTimeout(mainQuestion, 3000);
-    ([
         {
             type: 'input',
             name: 'salary',
             message: 'What is the salary of this role?',
         },
+        {
+            type: 'list',
+            name: 'department_id',
+            message: 'What is the department of this role?',
+            choices: departmentChoices,
+        },
     ]);
     await db.promise().query(`INSERT INTO role SET ?`, role);
-    console.log(`Added ${role.salary} to the database`);
+    console.log(`Added ${role.title} to the database`);
     setTimeout(mainQuestion, 3000);
     
 }
-
 const addEmployee = async() => {
+    const [roles] = await db.promise().query(`SELECT * FROM role`);
+    const roleChoices = roles.map((role => ({name: role.title, value: role.id})));
+    const [employees] = await db.promise().query(`SELECT * FROM employee`);
+    const managerChoices = employees.map((employee => ({name: `${employee.first_name} ${employee.last_name}` , value: employee.id})));
+    console.log(roleChoices);
+    console.log(managerChoices);
     const employee = await inquirer.prompt([
         {
             type: 'input',
             name: 'first_name',
             message: 'What is the first name of the employee?',
+        },
+        {
+            type: 'input',
+            name: 'last_name',
+            message: 'What is the last name of the employee?',
+        },
+        {
+            type: 'list',
+            name: 'role_id',
+            message: 'What is the role of the employee?',
+            choices: roleChoices
+        },
+        {
+            type: 'list',
+            name: 'manager_id',
+            message: 'Who is the manager of the employee?',
+            choices: managerChoices
         },
     ]);
     await db.promise().query(`INSERT INTO employee SET ?`, employee);
     console.log(`Added ${employee.first_name} to the database`);
     setTimeout(mainQuestion, 3000);
 
-    {
-        const employee = await inquirer.prompt([
-            {
-                type: 'input',
-                name: 'last_name',
-                message: 'What is the last name of the employee?',
-            },
-        ]);
-        await db.promise().query(`INSERT INTO employee SET ?`);
-        console.log(`Added ${employee.last_name} to the database`);
-        setTimeout(mainQuestion, 3000);
-    }
-
-    {
-        const employee = await inquirer.prompt([
-            {
-                type: 'input',
-                name: 'role_id',
-                message: 'What is the role id of the employee?',
-            },
-        ]);
-        await db.promise().query(`INSERT INTO employee SET ?`);
-        console.log(`Added ${employee.role_id} to the database`);
-        setTimeout(mainQuestion, 3000);
-    }
-
 }
 
 const updateEmployee = async() => {
+    const [employees] = await db.promise().query(`SELECT * FROM employee`);
+    const employeeChoices = employees.map((employee => ({name: `${employee.first_name} ${employee.last_name}` , value: employee.id})));
+    const [roles] = await db.promise().query(`SELECT * FROM role`);
+    const roleChoices = roles.map((role => ({name: role.title, value: role.id})));
     const employee = await inquirer.prompt([
         {
-            type: 'input',
-            name: 'first_name',
-            message: 'What is the first name of the employee?',
+            type: 'list',
+            name: 'employee_id',
+            message: "What is the employee's name?",
+            choices: employeeChoices
+        },
+        {
+            type: 'list',
+            name: 'role_id',
+            message: "What is the employee's role?",
+            choices: roleChoices
         },
     ]);
-    await db.promise().query(`INSERT INTO employee SET ?`, employee);
+    await db.promise().query(`INSERT INTO employee SET role_id=? where id=?`,[ employee.role_id, employee.employee_id]);
     console.log(`Added ${employee.first_name} to the database`);
         }
 
