@@ -52,5 +52,5 @@ If you would like to contribute to the development of this application, please f
 
 ## Links
 
-GitHub Repository:
-Video demonstration: 
+GitHub Repository: https://github.com/Flagg217/What-up-Workers 
+Video demonstration: https://drive.google.com/file/d/1Hd77MjdovzLV1e-Dw9qmfwjEOpqQurjL/view 
