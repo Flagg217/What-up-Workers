@@ -160,8 +160,9 @@ const updateEmployee = async() => {
             choices: roleChoices
         },
     ]);
-    await db.promise().query(`INSERT INTO employee SET role_id=? where id=?`,[ employee.role_id, employee.employee_id]);
-    console.log(`Added ${employee.first_name} to the database`);
+    await db.promise().query(`UPDATE employee SET ? WHERE ?`,[ {role_id: employee.role_id}, {id: employee.employee_id}]);
+    console.log(`Updated to the database`);
+    return setTimeout(mainQuestion, 3000);
         }
 
 start();
